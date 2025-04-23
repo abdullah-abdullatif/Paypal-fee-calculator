@@ -25,13 +25,14 @@
       text-align: center;
     }
     h2 {
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
       color: #222;
+      font-weight: bold;
     }
     .form-control {
       width: 100%;
       padding: 1rem;
-      margin-bottom: 1rem;
+      margin-bottom: 1.2rem;
       border-radius: 10px;
       border: 1px solid #ccc;
       font-size: 1rem;
@@ -53,6 +54,7 @@
       color: white;
       cursor: pointer;
       transition: background 0.3s ease;
+      margin-top: 0.5rem;
     }
     button:hover {
       background-color: #005a9e;
@@ -60,11 +62,17 @@
     .result {
       font-size: 1.1rem;
       color: #333;
-      margin-top: 1rem;
+      margin-top: 1.5rem;
+      text-align: left;
+    }
+    .result span {
+      display: block;
+      margin-bottom: 0.6rem;
+      font-weight: bold;
     }
     .note {
-      font-size: 0.9rem;
-      color: #777;
+      font-size: 1rem;
+      color: #555;
       margin-top: 1rem;
     }
     .footer {
@@ -111,9 +119,13 @@
 
       const received = amount - fee;
       const toSend = ((amount + 0.3) / (1 - rate)).toFixed(2);
+      const percentage = ((fee / amount) * 100).toFixed(2);
 
-      document.getElementById('result').innerHTML = 
-        `Fee: $${fee.toFixed(2)}<br>Amount after Fee: $${received.toFixed(2)}`;
+      document.getElementById('result').innerHTML = `
+        <span>Fee: $${fee.toFixed(2)} (${percentage}%)</span>
+        <span>Amount after Fee: $${received.toFixed(2)}</span>
+      `;
+
       document.getElementById('reverseCalc').innerText = 
         `Send $${toSend} if you want the receiver to get $${amount.toFixed(2)}`;
     }
