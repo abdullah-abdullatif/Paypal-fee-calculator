@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PayPal Fee Calculator</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #e1bee7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 440px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 1rem;
+      color: #222;
+    }
+    .form-control {
+      width: 100%;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      transition: border 0.2s ease;
+      box-sizing: border-box;
+    }
+    .form-control:focus {
+      border-color: #0070ba;
+      outline: none;
+    }
+    button {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 10px;
+      border: none;
+      font-size: 1rem;
+      font-weight: bold;
+      background-color: #0070ba;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background-color: #005a9e;
+    }
+    .result {
+      font-size: 1.1rem;
+      color: #333;
+      margin-top: 1rem;
+    }
+    .note {
+      font-size: 0.9rem;
+      color: #777;
+      margin-top: 1rem;
+    }
+    .footer {
+      font-size: 0.8rem;
+      margin-top: 2rem;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>PayPal Fee Calculator</h2>
+    <input type="number" id="amount" class="form-control" placeholder="Enter Amount to Send" />
+    <select id="countryType" class="form-control">
+      <option value="same">Same Country</option>
+      <option value="different">Different Country</option>
+    </select>
+    <button onclick="calculateFee()">Calculate Fee</button>
+    <div class="result" id="result"></div>
+    <div class="note" id="reverseCalc"></div>
+    <div class="footer">Developed by Abdullah Abdullatif</div>
+  </div>
+
+  <script>
+    function calculateFee() {
+      const amount = parseFloat(document.getElementById('amount').value);
+      const countryType = document.getElementById('countryType').value;
+      
+      if (isNaN(amount) || amount <= 0) {
+        document.getElementById('result').innerText = 'Please enter a valid amount';
+        document.getElementById('reverseCalc').innerText = '';
+        return;
+      }
+
+      let fee = 0;
+      let rate = 0;
+      if (countryType === 'same') {
+        rate = 0.034;
+        fee = amount * rate + 0.3;
+      } else {
+        rate = 0.044;
+        fee = amount * rate + 0.3;
+      }
+
+      const received = amount - fee;
+      const toSend = ((amount + 0.3) / (1 - rate)).toFixed(2);
+
+      document.getElementById('result').innerHTML = 
+        `Fee: $${fee.toFixed(2)}<br>Amount after Fee: $${received.toFixed(2)}`;
+      document.getElementById('reverseCalc').innerText = 
+        `Send $${toSend} if you want the receiver to get $${amount.toFixed(2)}`;
+    }
+  </script>
+</body>
+</html>
